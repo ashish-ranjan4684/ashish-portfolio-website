@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <title>Tushar Vatsa | Chat</title>
+    <link rel="stylesheet" href="/talk.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="title">&lt;Tushar Vatsa&gt;</div>
+
+        <div class="hamburger" id="hamburger">
+            &#9776;
+        </div>
+
+        <div class="menu" id="menu">
+            <span class="menuitem">About</span>
+            <span class="menuitem">Experience</span>
+            <span class="menuitem">Projects</span>
+            <span class="menuitem">Skills</span>
+            <span class="menuitem">Contact Me</span>
+            <span class="menuitem" id="resume-btn">Resume &#11123;</span>
+            <span class="menuitem talk">Let's Talk</span>
+        </div>
+    </div>
+
+    <div class="main-body">
+        <div class="send-box">Lorem ipsum dolor<span class="message-time">9:30</span></div>
+        <div class="receive-box">I am fine.</div>
+        <div class="send-box">Hi! how are you.</div>
+    </div>
+
+    <div class="message-box">
+        <div id="message-input" contenteditable="true" role="textarea"></div>
+        <button class="message-send-btn" type="button" id="message-send-btn"><img src="send32.png" alt="send button"></button>
+    </div>
+
+    <script type="module">
+        const socket = new WebSocket("ws://localhost:8080");
+        socket.addEventListener("open",()=>{
+            console.log("web socket connection opened.");
+        });
+
+        socket.addEventListener("close",()=>{
+            console.log("web socket connection closed.");
+        });
+
+        socket.addEventListener("message",(event)=>{
+            console.log(`Message received from server${event.data}`);
+        });
+
+        let message_input_el = document.getElementById("message-input");
+        let message_send_btn = document.getElementById("message-send-btn");
+        let mainBody = document.querySelector(".main-body");
+        let hamburger = document.getElementById("hamburger");
+        hamburger.addEventListener("click",()=>{
+            menu.classList.toggle("active");
+}       );
+        console.log("hello");
+        message_send_btn.addEventListener("click",async()=>{
+            let message = message_input_el.innerText;
+            if(!message.trim()) return;
+            let sendBox = document.createElement("div");
+            sendBox.classList.add("send-box");
+            sendBox.innerText = message;
+            mainBody.appendChild(sendBox);
+            message_input_el.innerText = "";
+            message_input_el.focus();
+            sendBox.scrollIntoView({
+                behavior:"smooth"
+            })
+
+        });
+
+        message_input_el.addEventListener("input", () => {
+            if(message_input_el.innerHTML === "<br>"){
+                message_input_el.innerHTML = "";
+            }
+}       );
+
+    </script>
+
+</body>
+</html>

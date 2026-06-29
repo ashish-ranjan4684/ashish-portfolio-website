@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tushar Vatsa | Certificate</title>
+    <link rel="icon" href="LOGO3 32.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ms+Madi&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /*body{
+            display:flex;
+            width:100vw;
+            min-height:100vh;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+        .frame{
+            border:2rem solid transparent;
+            border-image: url("border.png") round;
+            border-image-slice: 200;
+            border-image-width: 3.2;
+            position:relative;
+            /*box-sizing: unset;
+            z-index: 10;
+            height:fit-content;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            grid-template-rows: masonry;
+            gap: 2rem;
+            height:fit-content;
+            max-width: 1200px;
+            width: 100%;
+            /*padding: 2rem;
+        }*/
+
+        /*.frame {
+            padding: 1rem;
+            background: #4a3728;
+            border: 12px solid #c9a86a;
+            box-shadow: 0 8px 20px rgba(0,0,0,.3);
+        }*/
+        @view-transition {
+            navigation: auto;
+        }
+
+        ::view-transition-old(root) {
+            animation: view-transition-old 0.5s ease;
+        }
+        ::view-transition-new(root) {
+            animation: view-transition-new 0.5s ease;
+        }
+
+        @keyframes view-transition-old {
+            to { transform: translateX(-100%); }
+        }
+        @keyframes view-transition-new {
+            from { transform: translateX(100%); }
+        }
+        @keyframes autoShowy{
+            from{
+                opacity:0;
+                transform: translateY(100px);
+            }to{
+                opacity:1;
+                transform: translateY(0px);
+            }
+        }
+        body{
+            background:#111;
+            background-image: url("black scrap1.png");
+            background-repeat: repeat-y; /* repeat only vertically */
+            background-size: 100% auto;
+            margin:0;
+            padding:2rem;
+            min-height:100vh;
+        }
+
+        .gallery{
+            columns: 3 350px;     /* 3 columns, minimum width 350px */
+            column-gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .frame{
+            break-inside: avoid;
+            margin-bottom: 2rem;
+
+            border: 2rem solid transparent;
+            border-image: url("border.png") round;
+            border-image-slice: 200;
+            border-image-width: 3.2;
+            box-sizing: unset;
+            animation: autoShowy both;
+            animation-timeline: view();
+            animation-range:10% 50%;
+        }
+
+        .frame img{
+            width:100%;
+            height:auto;
+            display:block;
+        }
+
+        .frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+            position:relative;
+            z-index: 1;
+            
+        }
+        .title{
+            font-family: "Ms Madi", cursive;
+            font-weight: 1000;
+            font-style: normal;
+            font-size:4rem;
+            width:100%;
+            text-align: center;
+            padding-bottom: 2rem;
+            padding-top:2rem;
+            color:gold;
+            text-decoration: underline;
+            
+        }
+        @media (max-width: 450px) {
+            .title{
+                font-size:3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title">My Certificates</div>
+    <div class="gallery">
+    <div class="frame">
+        <img src="ashish mern cert.png">
+    </div>
+
+    <div class="frame">
+        <img src="ashish 8051 cert.png">
+    </div>
+    <div class="frame">
+        <img src="ashish redis cert.jpeg">
+    </div>
+    <div class="frame">
+        <img src="ashish neo4j cert1.jpeg">
+    </div>
+    <div class="frame">
+        <img src="ashish neo4j cert2.jpeg">
+    </div>
+</div>
+</body>
+</html>
