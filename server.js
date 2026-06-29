@@ -62,6 +62,8 @@ app.use(express.static(path.join(__dirname,"assets","images")));
 app.use(express.static(path.join(__dirname,"assets","resources")));
 app.use(express.static(path.join(__dirname,"assets","fonts")));
 app.use(express.static(path.join(__dirname,"assets","icons")));
+app.use(express.static(path.join(__dirname,"assets","sounds")));
+
 
 
 app.get("/",async(req,res)=>{

@@ -15,6 +15,7 @@
     --section-subheading-font-mobile:0.9rem;
     --cyan:#00e5ff;
     --bright-cyan:#00ffcc;
+    --button-gradient:linear-gradient(to right, rgb(118, 116, 116), rgb(91, 85, 85));
 }
 
 @keyframes autoShowx{
@@ -902,6 +903,59 @@ textarea::placeholder{
 #message-input:empty::before{
     content: "Type your message here...";
     color:rgb(178, 176, 176);
+}
+
+.message-send-btn{
+    display:flex;
+    flex-direction: row;
+    column-gap: 0.5rem;
+    justify-content: center;
+    align-items: none;
+}
+
+.dot{
+    height:0.7rem;
+    width:0.7rem;
+    border-radius: 50%;
+}
+
+.disabled{
+    pointer-events: none;
+    background:var(--button-gradient);
+    filter:brightness(0.8);
+    user-select:none;
+}
+.success{
+    color:#00cc66;
+}
+
+.failure{
+    color:rgba(236, 44, 44,)
+}
+
+.hidden{
+    display:none;
+}
+
+.dot1{
+    background-color: #00cc66;
+    animation: dotanimation 1.1s ease-in-out infinite alternate;
+}
+.dot2{
+    background-color: rgba(236, 44, 44);
+    animation: dotanimation 1.2s ease-in-out infinite alternate;
+}
+.dot3{
+    background-color: blue;
+    animation: dotanimation 1s ease-in-out infinite alternate;
+}
+
+@keyframes dotanimation{
+    from{
+        transform:translateY(-5px);
+    }to{
+        transform: translateY(5px);
+    }
 }
 
 

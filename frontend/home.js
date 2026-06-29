@@ -15,6 +15,11 @@ let sections = document.querySelectorAll(".section");
     menu.classList.toggle("active");
 });*/
 
+function playSound(audioEl) {
+    audioEl.currentTime = 0;
+    audioEl.play();
+}
+
 const about = document.querySelector(".about");
 const progress = document.querySelector(".progress-bar");
 
@@ -174,11 +179,28 @@ document.querySelectorAll(".contact-options").forEach(el=>{
 });
 
 document.querySelector(".message-send-btn").addEventListener("click",async(event)=>{
+    if("vibrate" in navigator){
+        navigator.vibrate(50);
+    }
+    
     let emailEl = document.querySelector(`#email`);
     let nameEl = document.querySelector(`#name`);
     let orgEl = document.querySelector(`#org`);
     let messageEl = document.querySelector(`#message-input`);
-
+    let button = document.querySelector(".message-send-btn")
+    if(!nameEl.value){
+        return
+    }else if(!emailEl.value){
+        return;
+    }
+    
+    button.textContent="";
+    button.classList.add('disabled');
+    for(let i=1;i<=3;i++){
+        let dotEl = document.createElement("div");
+        dotEl.classList.add("dot",`dot${i}`);
+        event.target.appendChild(dotEl);
+    }
     let result = await fetch("/send-message",{
         method:"POST",
         headers:{
@@ -197,9 +219,30 @@ document.querySelector(".message-send-btn").addEventListener("click",async(event
     emailEl.value = "";
     orgEl.value = "";
 
+    for(let i=1;i<=3;i++){
+        let dotEl = document.querySelector(`.dot${i}`);
+        //dotEl.classList.add("dot",`dot${i}`);
+       event.target.removeChild(dotEl);
+    }
     if(result.status===200){
+        playSound(document.getElementById("successsound"));
         console.log("message sent successfully");
+        event.target.classList.add("success");
+        event.target.textContent="Message sent successfully";
+        setTimeout(()=>{
+            button.classList.remove("success");
+            button.textContent = "Send Message";
+            button.classList.remove("disabled");
+        },2000);
     }else{
-        console.log("Message could not be sent.")
+        playSound(document.getElementById("errorsound"));
+        console.log("Message could not be sent.");
+        event.target.classList.add("failure");
+        event.target.textContent="Message could not be sent";
+        setTimeout(()=>{
+            button.classList.remove("failure");
+            button.textContent = "Send Message";
+            button.classList.remove("disabled");
+        },2000);
     }
 });
