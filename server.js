@@ -36,7 +36,7 @@ const client = new MongoClient(MONGODB_URI,{
     }
 })();
 
-const redisClient = redis.createClient({
+/*const redisClient = redis.createClient({
     username: process.env.REDIS_USERNAME,
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -51,7 +51,7 @@ const redisClient = redis.createClient({
     });
     await redisClient.connect();
     console.log("Connected to Redis");
-})();
+})();*/
 
 app.use(cookieParser());
 app.use(express.json());
