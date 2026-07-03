@@ -59,6 +59,9 @@ async function fetchAnswerAndShow(text){
 }
 
 sendBtn.addEventListener('click', async() => {
+    if("vibrate" in navigator){
+        navigator.vibrate(50);
+    }
     if(document.querySelector(".greetings")){
         messagesBox.removeChild(document.querySelector(".greetings"))
     }
@@ -70,6 +73,9 @@ sendBtn.addEventListener('click', async() => {
 
 userInput.addEventListener('keypress', async (e) => {
     if (e.key === 'Enter') {
+        if("vibrate" in navigator){
+            navigator.vibrate(50);
+        }
         if(document.querySelector(".greetings")){
             messagesBox.removeChild(document.querySelector(".greetings"))
         }
@@ -80,6 +86,9 @@ userInput.addEventListener('keypress', async (e) => {
     }
 });
 document.querySelector(".close-btn").addEventListener("click",()=>{
+    if("vibrate" in navigator){
+        navigator.vibrate(50);
+    }
     let interfaceEl = document.querySelector(".chat-interface-container");
     interfaceEl.classList.remove("fade-in");
     interfaceEl.classList.add("fade-out");
