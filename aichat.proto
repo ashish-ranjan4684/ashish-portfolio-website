@@ -1,0 +1,36 @@
+syntax="proto3";
+
+package aichat;
+
+message Query{
+    string query=1;
+    string client=2;
+}
+
+message Resume{
+    oneof payload{
+        string user=1;
+        Metadata metadata=2;
+        bytes chunk=3;
+        string hash=4;
+        
+    }
+}
+
+message Metadata{
+    int64 totalSize=1;
+}
+
+message ResumeResponse{
+    int32 code=1;
+    string message=2;
+}
+
+message Answer{
+    string answer=1;
+}
+service AiChatService{
+
+    rpc AnswerQuery(Query) returns(stream Answer);
+    rpc CreateResumeEmbeddings(stream Resume) returns(stream ResumeResponse);
+}

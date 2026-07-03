@@ -7,6 +7,7 @@ let menu = document.getElementById("menu");
 let carouselItems = document.querySelectorAll(".carousel-item");
 let menuItems = document.querySelectorAll(".menuitem");
 let sections = document.querySelectorAll(".section");
+let botBtn = document.querySelector(".bot-button");
 /*carouselItems.forEach((item,index)=>{
     item.document.createElement("span").classList.add("blinking-dot");
 });*/
@@ -245,4 +246,11 @@ document.querySelector(".message-send-btn").addEventListener("click",async(event
             button.classList.remove("disabled");
         },2000);
     }
+});
+
+botBtn.addEventListener("click",()=>{
+    let interfaceEl = document.querySelector(".chat-interface-container")
+    interfaceEl.classList.remove("hidden");
+    interfaceEl.classList.remove("fade-out");
+    interfaceEl.classList.add("fade-in");
 });
