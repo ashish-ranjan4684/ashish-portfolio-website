@@ -3,96 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tushar Vatsa | Chat</title>
+    <title>Get Started | Ashish Ranjan</title>
     <link rel="shortcut icon" href="logo3 32.png" type="image/png">
-    <link rel="stylesheet" href="registrationStyle.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        :root {
+            --bg-main: #3d4f62;
+            --bg-card: #111315;
+            --text-primary: #ffffff;
+            --text-muted: #9ca3af;
+            --accent-blue: #006097;
+            --accent-blue-hover: #004b76;
+            --border-color: #374151;
+            --input-focus: #00a3e0;
+            --section-heading-font:2.5rem;
+            --section-heading-gradient: linear-gradient(to right,aqua,rgb(0, 98, 255));
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* --- Main Layout Container --- */
+        .page-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            margin: auto;
+            align-items: center;
+        }
+
+        /* --- Left Panel: Marketing Info --- */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo span {
+            background-image: var(--section-heading-gradient);
+            font-size: 3rem;
+            background-clip: text;
+            color:transparent;
+            font-weight: 700;
+        }
+
+        .headline {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .subheadline {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+        }
+
+        .checkmark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background-color: #52a3ff;
+            color: #1a1d20;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Marketplace Badges */
+        .marketplace-section {
+            margin-top: 20px;
+        }
+        .marketplace-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        .badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .badge {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Right Panel: Login Card --- */
+        .auth-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 480px;
+            justify-self: center;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            width:100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        form{
+            width:100%;
+        }
+
+        .form-group-super-container{
+            overflow-x: hidden;
+            width:100%;
+            padding-top: 0.4rem;
+            /*margin-bottom: 20px;*/
+        }
+
+        .form-group-container{
+            width:100%;
+            display:grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 100%;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            position:absolute;
+            top:calc(50%);
+            transform: translateY(-50%);
+            left:14px;
+            transition:all 0.1s ease-in-out;
+            pointer-events: none;
+            z-index: 1000;
+            background-color: var(--bg-card);
+        }
+
+        .form-input {
+            width: 100%;
+            background-color: transparent;
+            border-radius: 6px;
+            padding: 14px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            display:block;
+            border:none;
+        }
+
+
+        .form-input:focus {
+            border:1px solid;
+            border-color: var(--input-focus);
+        }
+        
+        .form-input:focus+.form-label,
+        .form-input:not(:placeholder-shown) + .form-label{
+            top:0;
+            left:10px;
+            transform:translateY(-50%);
+            font-size: 0.7rem;
+            padding: 0 0.25rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-blue-hover);
+        }
+
+        .switch-auth {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 20px 0;
+        }
+
+        .switch-auth a {
+            color: #52a3ff;
+            text-decoration: none;
+        }
+        .switch-auth a:hover {
+            text-decoration: underline;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            margin: 24px 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .divider:not(:empty)::before { margin-right: .75em; }
+        .divider:not(:empty)::after { margin-left: .75em; }
+
+        /* OAuth Buttons */
+        .oauth-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-oauth {
+            width: 100%;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 24px;
+            gap: 16px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-oauth:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .oauth-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Footer Help Link */
+        .help-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .help-footer a {
+            color: #52a3ff;
+            text-decoration: none;
+        }
+
+        .badge{
+            cursor: pointer;
+        }
+
+        .badge:hover{
+            background-image: linear-gradient(to right, rgb(90, 105, 116),rgb(87, 103, 183));
+        }
+
+        @keyframes moveBackwards{
+            to{
+                transform: translateX(-100%);
+            }
+        }
+
+        @keyframes moveForwards {
+            to{
+                transform: translateX(100%);
+            }
+        }
+
+
+
+        /* --- Responsive Breakpoint (Desktop Side-by-Side) --- */
+        @media (min-width: 950px) {
+            .page-container {
+                grid-template-columns: 1.1fr 0.9fr;
+                gap: 60px;
+            }
+            .info-panel {
+                
+            }
+        }
+        @media (max-width: 950px) {
+            /*.page-container {
+                grid-template-columns: 1.1fr 0.9fr;
+                gap: 60px;
+            }*/
+            .info-panel {
+                display:none;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="signup-container">
-        <div class="signup-title">
-            <div class="title"><img src="logo3 3rem.png" alt="logo" class="logo-title">Tushar Vatsa</div>
-            <div class="signup-title-text">Signup to talk with Tushar</div>
-        </div>
-        <div class="signup-form">
-            <div class="signup-name form-internal">
-                <input type="text" id="name" name="name" placeholder=" " required>
-                <label for="name">Name</label>
+
+    <div class="page-container">
+        
+        <section class="info-panel">
+            <div class="logo"><img src="LOGO3 3rem.png" alt="LOGO" height="64px" width="64px"> <span>Ashish Ranjan</span></div>
+            
+            <h1 class="headline">Welcome to my world.</h1>
+            <p class="subheadline">Experience software engineering beyond static web pages. Sign in to access:</p>
+            
+            <ul class="features-list">
+                <li class="feature-item"><span class="checkmark">✓</span> My Blogs and articles on various topics.</li>
+                <li class="feature-item"><span class="checkmark">✓</span> Ashish AI, an agentic AI based Graph RAG chat app for portfolio related queries.</li>
+                <li class="feature-item"><span class="checkmark">✓</span> Samvaad, an E2EE chat app built on signal protocol for </li>
+                <li class="feature-item"><span class="checkmark">✓</span> </li>
+            </ul>
+
+            <div class="marketplace-section">
+                <p class="marketplace-text">Connect with me via</p>
+                <div class="badges-container">
+                    <div class="badge">
+                        <img class="oauth-icon" src="linkedin64.png" alt="Linkedin">
+                        Linkedin
+                    </div>
+                    <div class="badge">
+                        <img class="oauth-icon" src="instagram64.png" alt="Instagram">
+                        Instagram
+                    </div>
+                </div>
             </div>
-            <div class="signup-org form-internal">
-                <input type="text" id="org" name="org" placeholder=" " required>
-                <label for="org">Organization</label>
+        </section>
+
+        <main class="auth-card">
+            <h2 class="card-title">Log in</h2>
+            
+            <form action="/login" method="post">
+                <div class="form-group-super-container">
+                    <div class="form-group-container">
+
+                        <div class="form-group">
+                            <input class="form-input" type="email" id="email" name="email" placeholder=" " required>
+                            <label class="form-label" for="email">Email address</label>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-input" type="password" id="password" name="password" placeholder=" " required>
+                            <label class="form-label" for="password">Password</label>
+                        </div>
+
+                    </div>
+                </div>
+                
+                
+                <button type="submit" class="btn-primary login-btn">Log in</button>
+            </form>
+
+            <p class="switch-auth">Don't have an account? <a href="#">Sign up</a></p>
+
+            <div class="divider">OR</div>
+
+            <div class="oauth-container">
+                <button class="btn-oauth">
+                    <img class="oauth-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+                    Continue with Google
+                </button>
+                <button class="btn-oauth">
+                    <svg class="oauth-icon" viewBox="0 0 16 16" fill="#fff"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.58-3.58-8-8-8z"/></svg>
+                    Continue with GitHub
+                </button>
             </div>
-            <div class="signup-email form-internal">
-                <input type="email" id="email" name="email" placeholder=" " required>
-                <label for="email">Email</label>
+
+            <div class="help-footer">
+                Forgot Password? <a href="#">Get help</a>
             </div>
-            <button type="button" id="signup-button">Signup</button>
-        </div>
-        <div class="signup-login">Already have an account?&ThickSpace;<a href="login.html">Login</a></div>
-        <div class="error-msg"></div>
+        </main>
+
     </div>
-
     <script>
-        document.addEventListener("load",()=>{
+        let emailEl = document.querySelector("#email");
+        let passwordEl = document.querySelector("#password");
+        let loginBtn = document.querySelector(".login-btn");
 
-        });
-        let nameEl = document.getElementById("name");
-        let orgEl = document.getElementById("org");
-        let emailEl = document.getElementById("email");
-        let submitBtn = document.getElementById("signup-button");
-        let errorEl = document.querySelector(".error-msg");
-        
-        nameEl.addEventListener("focusin",()=>{
-            if(nameEl.classList.contains("error-border")){
-                nameEl.classList.remove("error-border");
-            }
-        });
-
-        emailEl.addEventListener("focusin",()=>{
-            if(nameEl.classList.contains("error-border")){
-                nameEl.classList.remove("error-border");
-            }
-        });
-
-        function checkInput(){
-            if(!nameEl.value.trim()){
-                nameEl.classList.add("error-border");
-                errorEl.innerText = "* You must provide your name";
-                return 0;
-            }else if(!email.value.trim()){
-                emailEl.classList.add("error-border");
-                errorEl.textContent = "* You must provide your Email"
-                return 0;
+        let currentPos = 0;
+        let elArr = [emailEl, passwordEl]; 
+        loginBtn.addEventListener("click",(event)=>{
+            event.preventDefault();
+            
+            if(currentPos<1){
+                elArr[++currentPos].focus();
             }else{
-                return 1;
+                event.target.parentElement.submit();
+                
             }
-        }
-
-        function arrayBufferToBase64(buffer) {
-            return btoa(String.fromCharCode(...new Uint8Array(buffer)));
-        }
-        
-        submitBtn.addEventListener("click",async()=>{
-            if(checkInput()){
-                const keyPair = await crypto.subtle.generateKey(
-                    {
-                        name: "RSASSA-PKCS1-v1_5",
-                        modulusLength: 2048,
-                        publicExponent: new Uint8Array([1, 0, 1]),
-                        hash: "SHA-256"
-                    },
-                    false, // extractable (needed if you want to store/export)
-                    ["sign", "verify"]
-                );
-
-                const exportedPublicKey = await crypto.subtle.exportKey(
-                    "spki",
-                    keyPair.publicKey
-                );
-
-                let publicKeyBase64 = arrayBufferToBase64(exportedPublicKey);
-
-            }else return;
         })
     </script>
 

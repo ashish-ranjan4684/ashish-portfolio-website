@@ -36,7 +36,7 @@ const grpcLLMClient = new proto.AiChatService(
         })
     }
 );
-const MONGODB_URI = process.env.MONGODB_URI;
+/*const MONGODB_URI = process.env.MONGODB_URI;
 let DB;
 const client = new MongoClient(MONGODB_URI,{
     serverApi:{
@@ -44,7 +44,7 @@ const client = new MongoClient(MONGODB_URI,{
         strict:true,
         deprecationErrors:true
     }
-});
+});*/
 
 (async()=>{
     try{
@@ -74,6 +74,7 @@ const client = new MongoClient(MONGODB_URI,{
 })();*/
 
 app.use(cookieParser());
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname,"frontend")));
 app.use(express.static(path.join(__dirname,"styles")));
@@ -99,36 +100,18 @@ app.get("/registerFile",async(req,res)=>{
     res.sendFile(path.join(__dirname,"frontend","registration.html"));
 });
 
-app.post("/register",async(req,res)=>{
-    let {email,organization,name,publicKey} = req.body;
-    if(!email || !organization || !name || !publicKey){
-        return res.status(400).json({message:"All fields are required"});
-    }
-    try{
-        let existingUser = await client.db("tushar-chat-app").collection("users").findOne({email});
-        if(existingUser){
-            return res.status(400).json({message:"User already exists"});
-        }else{
-            try{
-                let uuid = crypto.randomUUID();
-                await client.db("tushar-chat-app").collection("users").insertOne({email,uuid,organization,name,publicKey});
-                return res.status(201).json({message:"User registered successfully."});
-            } catch (error) {
-                console.error("Error creating user:", error);
-                return res.status(500).json({message:"Internal server error"});
-            }
-        }
-    }catch(error){
-        console.error("Error occurred while registering user:", error);
-        return res.status(500).json({message:"Internal server error"});
-    }
+app.post("/login",async(req,res)=>{
+    let {email, password} = req.body;
+    console.log(`email: ${email}\npassword: ${password}`);
+
+    res.sendFile(path.join(__dirname,"frontend","talk.html"));
 });
 
 app.get("/loginFile",async(req,res)=>{
     res.sendFile(path.join(__dirname,"frontend","login.html"));
 });
 
-app.post("/login",async(req,res)=>{
+/*app.post("/login",async(req,res)=>{
     let {email,signature} = req.body;
     if(!email || !signature){
         return res.status(400).json({message:"Email and signature are required"});
@@ -147,7 +130,7 @@ app.post("/login",async(req,res)=>{
         console.error("Error occurred while logging in:", error);
         return res.status(500).json({message:"Internal server error"});
     }
-});
+});*/
 
 app.get("/talk",async(req,res)=>{
     const token = req.cookies.token;
@@ -186,9 +169,11 @@ app.post("/ask",async (req,res)=>{
 
     /*res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");*/
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");*/
     res.setHeader("Content-Type", "text/plain; charset=utf-8");
     res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("X-Accel-Buffering", "no");
     res.flushHeaders();
 
     stream.on("data",(chunk)=>{
@@ -231,6 +216,8 @@ app.post('/upload', upload.single('resume'), (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
+    res.setHeader("X-Accel-Buffering", "no");
+    res.flushHeaders();
 
     console.log(`Starting processing for user: ${username}, File Size: ${file.size} bytes`);
 
