@@ -211,9 +211,10 @@ app.post('/upload', upload.single('resume'), (req, res) => {
     );
 
     // Set HTTP headers for live chunk streaming to the client
-    res.setHeader('Content-Type', 'text/event-stream');
+    //res.setHeader('Content-Type', 'text/event-stream'); Not using SSE as post requests are not allowed in EventSource
+    res.setHeader('Content-Type','text/plain; charset=utf-8')
     res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
+    //res.setHeader('Connection', 'keep-alive');
     res.setHeader("X-Accel-Buffering", "no");
     res.flushHeaders();
 
@@ -227,8 +228,10 @@ app.post('/upload', upload.single('resume'), (req, res) => {
 
     // Helper to pipe a clean text update down the HTTP wire safely
     const sendSSEUpdate = (status, message) => {
+        if(res.writableEnded)return;
+        if(res.destroyed)return;
         if (!streamEnded) {
-            res.write(`data: ${JSON.stringify({ status, message })}\n\n`);
+            res.write(`${JSON.stringify({ status, message })}`);
         }
     };
 
