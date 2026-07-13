@@ -505,7 +505,13 @@
                     const redirectTo = urlParams.get('redirect') || '/';
                     
                     // 3. Cleanly navigate back
-                    window.location.href = redirectTo;
+                    if (document.startViewTransition) {
+                        document.startViewTransition(() => {
+                            window.location.href = redirectTo;
+                        });
+                    } else {
+                        window.location.href = redirectTo;
+                    }
                 }else{
                     let resultMessage = await result.json();
                     document.querySelector(".error").textContent = `* ${resultMessage.message}`;
