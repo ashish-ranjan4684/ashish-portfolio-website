@@ -54,10 +54,12 @@ function authenticate(req, res, next) {
 
     } catch (err) {
 
+        console.log(err);
+
         res.clearCookie("access_token");
 
         return res.sendFile(
-            path.join(__dirname, "public", "registration.html")
+            path.join(__dirname,"..","frontend", "registration.html")
         );
 
     }
