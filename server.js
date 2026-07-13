@@ -164,7 +164,7 @@ app.get("/registerFile",async(req,res)=>{
     }
 });*/
 
-app.get("/talk",async(req,res)=>{
+/*app.get("/talk",async(req,res)=>{
     const token = req.cookies.token;
     if(!token){
         res.redirect("/registerFile");
@@ -176,7 +176,7 @@ app.get("/talk",async(req,res)=>{
             res.status(401).send("Invalid token");
         }
     }
-});
+});*/
 
 app.post("/send-message",async(req, res)=>{
     let obj = req.body;

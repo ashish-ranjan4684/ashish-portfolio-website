@@ -25,6 +25,24 @@
             --section-heading-font:2.5rem;
             --section-heading-gradient: linear-gradient(to right,aqua,rgb(0, 98, 255));
         }
+        /*View Transitions*/
+        @view-transition {
+            navigation: auto;
+        }
+
+        ::view-transition-old(root) {
+            animation: view-transition-old 0.5s ease;
+        }
+        ::view-transition-new(root) {
+            animation: view-transition-new 0.5s ease;
+        }
+
+        @keyframes view-transition-old {
+            to { transform: translateX(-100%); }
+        }
+        @keyframes view-transition-new {
+            from { transform: translateX(100%); }
+        }
 
         body {
             background-color: var(--bg-main);
@@ -315,6 +333,15 @@
             text-decoration: none;
         }
 
+        .error{
+            font-size: 0.6rem;
+            color:red;
+        }
+
+        .hidden{
+            display:none;
+        }
+
         .badge{
             cursor: pointer;
         }
@@ -346,6 +373,12 @@
             .info-panel {
                 
             }
+        }
+
+        @media (max-width: 1210px) {
+    /* Vertical Transition Tweaks */
+            @keyframes view-transition-old { to { transform: translateY(-100%); } }
+            @keyframes view-transition-new { from { transform: translateY(100%); } }
         }
         @media (max-width: 950px) {
             /*.page-container {
@@ -409,7 +442,7 @@
                     </div>
                 </div>
                 
-                
+                <div class="error"></div>
                 <button type="submit" class="btn-primary login-btn">Log in</button>
             </form>
 
@@ -438,17 +471,46 @@
         let emailEl = document.querySelector("#email");
         let passwordEl = document.querySelector("#password");
         let loginBtn = document.querySelector(".login-btn");
-
+        let errorEl = document.querySelector(".error");
         let currentPos = 0;
         let elArr = [emailEl, passwordEl]; 
-        loginBtn.addEventListener("click",(event)=>{
+        loginBtn.addEventListener("click",async (event)=>{
             event.preventDefault();
+            if("vibrate" in navigator){
+                navigator.vibrate(50);
+            }
+            if(!errorEl.classList.contains("hidden"))errorEl.classList.add("hidden");
             
             if(currentPos<1){
                 elArr[++currentPos].focus();
             }else{
-                event.target.parentElement.submit();
-                
+                let body = {
+                    email: emailEl.value,
+                    password: passwordEl.value
+                }
+
+                let result = await fetch("/login",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify(body)
+                });
+
+                if (result.status === 200) {
+                    // 1. Parse the current URL parameters
+                    const urlParams = new URLSearchParams(window.location.search);
+                    
+                    // 2. Get the value of '?redirect=' or fallback to the main dashboard
+                    const redirectTo = urlParams.get('redirect') || '/';
+                    
+                    // 3. Cleanly navigate back
+                    window.location.href = redirectTo;
+                }else{
+                    let resultMessage = await result.json();
+                    document.querySelector(".error").textContent = `* ${resultMessage.message}`;
+                    document.querySelector(".error").classList.remove("hidden");
+                }    
             }
         })
     </script>

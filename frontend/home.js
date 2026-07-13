@@ -249,10 +249,14 @@ document.querySelector(".message-send-btn").addEventListener("click",async(event
 });
 
 botBtn.addEventListener("click",async()=>{
+    if("vibrate" in navigator){
+        navigator.vibrate(50);
+    }
     let res = await fetch("/ask");
     if(res.status===401){
-        window.location.href="/registration.html";
-    }else{
+        window.location.href=`/registerFile?redirect=${encodeURIComponent('/')}`;
+    }
+    if(res.status===200){
         let interfaceEl = document.querySelector(".chat-interface-container")
         interfaceEl.classList.remove("hidden");
         interfaceEl.classList.remove("fade-out");

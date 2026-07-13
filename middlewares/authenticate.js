@@ -15,7 +15,7 @@ function authenticate(req, res, next) {
         /*return res.sendFile(
             path.join(__dirname,"..","frontend", "registration.html")
         );*/
-        return res.status(401).send("Authentication required.");
+        return res.status(401).send("unauthenticated.")
     }
 
     try {
