@@ -58,9 +58,7 @@ function authenticate(req, res, next) {
 
         res.clearCookie("access_token");
 
-        return res.sendFile(
-            path.join(__dirname,"..","frontend", "registration.html")
-        );
+        return res.status(401).send("Unauthenticated.")
 
     }
 

@@ -35,9 +35,15 @@ router.post("/login", (req, res) => {
         },
         (err, response) => {
 
-            if (err) {
+            if(err){
+                return res.status(500).json({
+                    message:"Internal server error."
+                });
+            }
 
-                switch (err.code) {
+            if (response.token===" ") {
+
+                switch (response.status) {
 
                     case 3:
                         return res.status(400).json({
