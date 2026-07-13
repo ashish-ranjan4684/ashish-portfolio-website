@@ -1,6 +1,7 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const path = require("path");
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 
@@ -9,7 +10,7 @@ const packageDef = protoLoader.loadSync(
 );
 
 const proto = grpc.loadPackageDefinition(packageDef).auth;
-
+console.log(process.env.AUTH_SERVER_ADDRESS);
 const authClient = new proto.AuthService(
     process.env.AUTH_SERVER_ADDRESS || "localhost:51000",
     grpc.credentials.createInsecure()
