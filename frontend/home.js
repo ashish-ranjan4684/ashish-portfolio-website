@@ -248,9 +248,14 @@ document.querySelector(".message-send-btn").addEventListener("click",async(event
     }
 });
 
-botBtn.addEventListener("click",()=>{
-    let interfaceEl = document.querySelector(".chat-interface-container")
-    interfaceEl.classList.remove("hidden");
-    interfaceEl.classList.remove("fade-out");
-    interfaceEl.classList.add("fade-in");
+botBtn.addEventListener("click",async()=>{
+    let res = await fetch("/ask");
+    if(res.status===401){
+        window.location.href="/registration.html";
+    }else{
+        let interfaceEl = document.querySelector(".chat-interface-container")
+        interfaceEl.classList.remove("hidden");
+        interfaceEl.classList.remove("fade-out");
+        interfaceEl.classList.add("fade-in");
+    }
 });

@@ -10,6 +10,10 @@ const protoLoader = require("@grpc/proto-loader");
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
 const {sendEmail} = require("./scripts/sendEmail");
+const loginRoutes = require("./routes/login");
+const signupRoutes = require("./routes/signup");
+const mysql = require("mysql2/promise");
+const authenticate = require("./middlewares/authenticate");
 
 require("dotenv").config();
 
@@ -44,7 +48,35 @@ const client = new MongoClient(MONGODB_URI,{
     }
 });*/
 
+var publicKey = null;
+var connection = null;
 (async()=>{
+    try{
+            connection = await mysql.createConnection({
+            host:process.env.DB_HOST,
+            port:process.env.DB_PORT,
+            user:process.env.DB_USER,
+            password:process.env.DB_PASSWORD,
+            database:process.env.DATABASE,
+        });
+        let [row] = await connection.execute(`SELECT public_key FROM public_keys WHERE kid = ?`,[process.env.KID]);
+        console.log(row);
+        publicKey = row[0].public_key;
+        process.env.PUBLIC_KEY = publicKey;
+        console.log("Got public key.", publicKey);
+    }catch(err){
+        publicKey = null;
+        console.log(err);
+        console.log("An error occurred while setting the public key.")
+    }finally{
+        if(connection){
+            await connection.end();
+            console.log("connection to mysql closed");
+        }
+    }
+})();
+
+/*(async()=>{
     try{
         await client.connect();
         DB = client.db("tushar-chat-app");
@@ -52,7 +84,7 @@ const client = new MongoClient(MONGODB_URI,{
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
-})();
+})();*/
 
 /*const redisClient = redis.createClient({
     username: process.env.REDIS_USERNAME,
@@ -84,6 +116,8 @@ app.use(express.static(path.join(__dirname,"assets","fonts")));
 app.use(express.static(path.join(__dirname,"assets","icons")));
 app.use(express.static(path.join(__dirname,"assets","sounds")));
 
+app.use("/",loginRoutes);
+app.use("/",signupRoutes);
 
 
 app.get("/",async(req,res)=>{
@@ -98,16 +132,16 @@ app.get("/registerFile",async(req,res)=>{
     res.sendFile(path.join(__dirname,"frontend","registration.html"));
 });
 
-app.post("/login",async(req,res)=>{
+/*app.post("/login",async(req,res)=>{
     let {email, password} = req.body;
     console.log(`email: ${email}\npassword: ${password}`);
 
     res.sendFile(path.join(__dirname,"frontend","talk.html"));
-});
+});*/
 
-app.get("/loginFile",async(req,res)=>{
+/*app.get("/loginFile",async(req,res)=>{
     res.sendFile(path.join(__dirname,"frontend","login.html"));
-});
+});*/
 
 /*app.post("/login",async(req,res)=>{
     let {email,signature} = req.body;
@@ -157,7 +191,11 @@ app.post("/send-message",async(req, res)=>{
     }
 });
 
-app.post("/ask",async (req,res)=>{
+app.get("/ask",authenticate, async(req,res)=>{
+    res.status(200).send();
+})
+
+app.post("/ask",authenticate,async (req,res)=>{
     const query = req.body.query;
     console.log(`reqeuest recived from: ${req.socket.remoteAddress}`);
     const stream = grpcLLMClient.AnswerQuery({
