@@ -49,12 +49,13 @@ router.post("/login", (req, res) => {
                             success: false,
                             message: "User not found."
                         });
-
+                        console.log("user not found.");
                     case 7:
                         return res.status(401).json({
                             success: false,
                             message: "Incorrect password."
                         });
+                        console.log("incorrect password.");
 
                     default:
                         console.error(err);
@@ -66,10 +67,10 @@ router.post("/login", (req, res) => {
                 }
 
             }
-
+            console.log(response.token);
             res.cookie("access_token", response.token, {
                 httpOnly: true,
-                secure: process.env.PRODUCTION === "true",
+                secure: process.env.PRODUCTION == "true",
                 sameSite: "Strict",
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });

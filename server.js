@@ -192,6 +192,7 @@ app.post("/send-message",async(req, res)=>{
 });
 
 app.get("/ask",authenticate, async(req,res)=>{
+    console.log("user authenticated");
     res.status(200).send();
 })
 
