@@ -334,8 +334,9 @@
         }
 
         .error{
-            font-size: 0.6rem;
+            font-size: 1rem;
             color:red;
+            padding-bottom: 1rem;
         }
 
         .hidden{
@@ -592,7 +593,7 @@
             }
             if(!errorEl.classList.contains("hidden"))errorEl.classList.add("hidden");
             
-            if(currentPos<1){
+            if(currentPos<elArr.length-1){
                 elArr[++currentPos].focus();
                 if(currentPos===elArr.length-1){
                     loginBtn.textContent = "Log in";
@@ -643,10 +644,10 @@
             }
 
             signupErrorEl.classList.add("hidden");
-            if(signupCurrentPos1){
+            if(signupCurrentPos < signupElArr.length-1){
                 signupElArr[++signupCurrentPos].focus();
                 if(signupCurrentPos===signupElArr.length-1){
-                    loginBtn.textContent = "Log in";
+                    signupBtn.textContent = "Sign up";
                 }
             }else{
                 const body = {
