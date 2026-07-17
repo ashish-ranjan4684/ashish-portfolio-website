@@ -401,6 +401,7 @@
 
         .disabled{
             pointer-events: none;
+            background:black;
             /*filter:brightness(0.8);*/
             -webkit-user-select: none;
             user-select:none;
@@ -704,7 +705,7 @@
                     setTimeout(()=>{
                         loginBtn.classList.remove("disabled","failure");
                         loginBtn.textContent = "Log in";
-                    }, 2000)
+                    }, 3000)
                 }    
             }
         });
@@ -724,12 +725,19 @@
                     signupBtn.textContent = "Sign up";
                 }
             }else{
+                event.target.classList.add("disabled");
                 const body = {
                     name: nameEl.value.trim(),
                     organization: organizationEl.value.trim(),
                     email: signupEmailEl.value.trim(),
                     password: signupPasswordEl.value
                 };
+
+                for(let i = 1; i <=4; i++){
+                    let dotEl = document.createElement("div");
+                    dotEl.classList.add("dot",`dot${i}`);
+                    event.target.appendChild(dotEl);
+                }
 
                 const result = await fetch("/signup", {
                     method: "POST",
@@ -741,8 +749,11 @@
 
                 if (result.status === 201) {
 
-                    // Option 1: automatically flip back to login
-                    document.querySelector(".inner-card").style.transform = "rotateY(0deg)";
+                    event.target.classList.add("success");
+                    event.target.textContent = "Signup successful.";
+                    // 1. Parse the current URL parameters
+                    setTimeout(()=>{
+                        document.querySelector(".inner-card").style.transform = "rotateY(0deg)";
                     card.style.height = loginCard.offsetHeight + "px";
 
                     // Clear signup form
@@ -752,14 +763,17 @@
                     signupPasswordEl.value = "";
 
                     // Optional success message
-                    alert("Account created successfully. Please log in.");
+                    },3000);
 
                 } else {
 
-                    const resultMessage = await result.json();
-
-                    signupErrorEl.textContent = `* ${resultMessage.message}`;
-                    signupErrorEl.classList.remove("hidden");
+                    let resultMessage = await result.json();
+                    event.target.classList.add("failure");
+                    event.target.textContent = resultMessage.message;
+                    setTimeout(()=>{
+                        loginBtn.classList.remove("disabled","failure");
+                        loginBtn.textContent = "Log in";
+                    }, 3000)
                 }
             }
         });
