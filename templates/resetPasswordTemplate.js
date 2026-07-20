@@ -1,10 +1,4 @@
-const nodeMailer = require("nodemailer");
-
-function Template(emailContent){
-    let name = emailContent.name;
-    let email = emailContent.email;
-    let org = emailContent.org;
-    let message = emailContent.message;
+const resetPasswordTemplate = (link,username,ip,timestamp)=>{
     return `<!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +62,7 @@ function Template(emailContent){
                                 margin-top:4px;
                             ">
 
-                            Portfolio Contact Notification
+                            Reset your password
 
                         </div>
 
@@ -92,7 +86,7 @@ function Template(emailContent){
                     color:#111827;
                 ">
 
-                You've received a new message
+                A password reset event has been triggered. Kindly complete the process within 1 hour.
 
             </h2>
 
@@ -103,13 +97,9 @@ function Template(emailContent){
                     font-size:15px;
                 ">
 
-                <strong>${name}</strong>
-
-                from
-
-                <strong>${org}</strong>
-
-                has contacted you through your portfolio website.
+                To complete the password reset process, visit the following link: 
+                <br><br>
+                <a href=${link}>${link}</a>
 
             </p>
 
@@ -131,13 +121,13 @@ function Template(emailContent){
                             font-weight:bold;
                         ">
 
-                        Name
+                        Username
 
                     </td>
 
                     <td>
 
-                        ${name}
+                        ${username}
 
                     </td>
 
@@ -151,15 +141,13 @@ function Template(emailContent){
                             font-weight:bold;
                         ">
 
-                        Email
+                        IP Address
 
                     </td>
 
                     <td>
 
-                        <a href="mailto:${email}">
-                            ${email}
-                        </a>
+                        ${ip}
 
                     </td>
 
@@ -173,79 +161,20 @@ function Template(emailContent){
                             font-weight:bold;
                         ">
 
-                        Organization
+                        Request Timestamp
 
                     </td>
 
                     <td>
 
-                        ${org}
+                        ${timestamp}
 
                     </td>
 
                 </tr>
 
             </table>
-
-            <div
-                style="
-                    margin-top:32px;
-                    border:1px solid #ececec;
-                    border-radius:12px;
-                    padding:20px;
-                    background:#fafafa;
-                ">
-
-                <div
-                    style="
-                        color:#6b7280;
-                        font-size:13px;
-                        margin-bottom:10px;
-                    ">
-
-                    MESSAGE
-
-                </div>
-
-                <div
-                    style="
-                        font-size:15px;
-                        line-height:1.8;
-                        color:#333;
-                        white-space:pre-wrap;
-                    ">
-
-                    ${message}
-
-                </div>
-
-            </div>
-
-            <div
-                style="
-                    margin-top:35px;
-                ">
-
-                <a
-                    href="mailto:${email}"
-                    style="
-                        background:#00bcd4;
-                        color:white;
-                        text-decoration:none;
-                        padding:14px 28px;
-                        border-radius:8px;
-                        display:inline-block;
-                        font-weight:bold;
-                    ">
-
-                    Reply to ${name}
-
-                </a>
-
-            </div>
-
         </td>
-
     </tr>
 
     <!-- Footer -->
@@ -261,7 +190,7 @@ function Template(emailContent){
                 font-size:13px;
             ">
 
-            This email was automatically generated from your portfolio contact form.
+            This email was automatically generated following a password reset request.
 
             <br><br>
 
@@ -275,37 +204,9 @@ function Template(emailContent){
 
 </body>
 
-</html>
-`
-}
-
-async function sendEmail(SMTP_USER, SMTP_PASSWORD, type,subject,receiverEmail,emailContent){
-    const transporter = nodeMailer.createTransport({
-        host:"smtpout.secureserver.net",
-        port:587,
-        secure:false,
-        requireTLS:true,
-        auth:{
-            user:SMTP_USER,
-            pass:SMTP_PASSWORD
-        }
-    });
-    const mailOptions = {
-        from: `${type}@ashish-ranjan.com`, 
-        to: `${receiverEmail}`, 
-        subject: `${subject}`,
-        html: Template(emailContent)
-    };
-
-    try{
-        let result = await transporter.sendMail(mailOptions);
-        console.log(`Email sent successfully: ${result.response}`);
-    }catch(err){
-        console.error("Email could not be sent. Reason: ",err);
-        throw err;
-    }
+</html>`
 }
 
 module.exports = {
-    sendEmail
+    resetPasswordTemplate
 }

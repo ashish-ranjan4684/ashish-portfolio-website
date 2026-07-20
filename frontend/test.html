@@ -25,7 +25,8 @@
             --section-heading-font:2.5rem;
             --section-heading-gradient: linear-gradient(to right,aqua,rgb(0, 98, 255));
         }
-        /*View Transitions*/
+
+        /* View Transitions */
         @view-transition {
             navigation: auto;
         }
@@ -151,17 +152,60 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
+        }
+        .badge:hover {
+            background-image: linear-gradient(to right, rgb(90, 105, 116),rgb(87, 103, 183));
         }
 
-        /* --- Right Panel: Login Card --- */
+        /* --- Right Panel Container --- */
+        .card {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            justify-self: center;
+            overflow: hidden;
+            transition: height 0.4s ease;
+        }
+
+        /* --- Sliding Deck Container --- */
+        .inner-card {
+            position: relative;
+            width: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Slide position states */
+        .inner-card.show-login {
+            transform: translateX(0);
+        }
+        .inner-card.show-signup {
+            transform: translateX(-100%);
+        }
+        .inner-card.show-forgot {
+            transform: translateX(-200%);
+        }
+
+        /* Individual Cards */
         .auth-card {
+            position: absolute;
+            top: 0;
+            width: 100%;
             background-color: var(--bg-card);
             border-radius: 12px;
             padding: 40px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 480px;
-            justify-self: center;
+            transition: opacity 0.4s ease;
+        }
+
+        .login-card {
+            left: 0;
+        }
+        .signup-card {
+            left: 100%;
+        }
+        .forgot-card {
+            left: 200%;
         }
 
         .card-title {
@@ -177,18 +221,17 @@
             position: relative;
         }
 
-        form{
+        form {
             width:100%;
         }
 
-        .form-group-super-container{
+        .form-group-super-container {
             overflow-x: hidden;
             width:100%;
             padding-top: 0.4rem;
-            /*margin-bottom: 20px;*/
         }
 
-        .form-group-container{
+        .form-group-container {
             width:100%;
             display:grid;
             grid-auto-flow: column;
@@ -206,7 +249,7 @@
             left:14px;
             transition:all 0.1s ease-in-out;
             pointer-events: none;
-            z-index: 1000;
+            z-index: 10;
             background-color: var(--bg-card);
         }
 
@@ -219,17 +262,15 @@
             font-size: 1rem;
             outline: none;
             display:block;
-            border:none;
+            border: 1px solid var(--border-color);
         }
 
-
         .form-input:focus {
-            border:1px solid;
             border-color: var(--input-focus);
         }
         
-        .form-input:focus+.form-label,
-        .form-input:not(:placeholder-shown) + .form-label{
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
             top:0;
             left:10px;
             transform:translateY(-50%);
@@ -266,11 +307,12 @@
             margin: 20px 0;
         }
 
-        .switch-auth a {
+        .switch-auth span, .help-footer a {
             color: #52a3ff;
+            cursor: pointer;
             text-decoration: none;
         }
-        .switch-auth a:hover {
+        .switch-auth span:hover, .help-footer a:hover {
             text-decoration: underline;
         }
 
@@ -333,163 +375,63 @@
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-        .help-footer a {
-            color: #52a3ff;
-            text-decoration: none;
-        }
 
-        .error{
-            font-size: 1rem;
-            color:red;
+        .error {
+            font-size: 0.9rem;
+            color: red;
             padding-bottom: 1rem;
         }
 
-        .hidden{
-            display:none;
+        .hidden {
+            display: none;
         }
 
-        .card{
-            perspective: 1200px;
-            /*display:flex;
-            flex-direction: row;
-            width:480px;
-            height: 1000px;
-            column-gap: 1rem;
-            overflow:hidden;*/
-        }
-
-        .inner-card{
-            position: relative;
-            transform-style: preserve-3d;
-            transform-origin: center;
-            transition: transform 1s;
-            flex-shrink: 0;
-        }
-
-        .auth-card{
-            position:absolute;
-            backface-visibility: hidden;
-        }
-
-        .initial-back{
-            transform: rotateY(180deg);
-        }
-
-        .success{
-            background-color: #00cc6681;
-        }
-
-        .forgot-card{
-            transform: rotateY(180deg);
-        }
-
-        .reset-password{
-            color: #00a3e0;
-            cursor: pointer;
-        }
-
-        .switch-auth span{
-            color:#00a3e0;
-            cursor:pointer;
-        }
-
-        .badge{
-            cursor: pointer;
-        }
-
-        .badge:hover{
-            background-image: linear-gradient(to right, rgb(90, 105, 116),rgb(87, 103, 183));
-        }
-
-        @keyframes moveBackwards{
-            to{
-                transform: translateX(-100%);
-            }
-        }
-
-        @keyframes moveForwards {
-            to{
-                transform: translateX(100%);
-            }
-        }
-
-        .dot{
-            height:0.6rem;
-            width:0.6rem;
+        .dot {
+            height: 0.6rem;
+            width: 0.6rem;
             border-radius: 50%;
         }
 
-        .disabled{
+        .disabled {
             pointer-events: none;
-            background:black;
-            /*filter:brightness(0.8);*/
-            -webkit-user-select: none;
-            user-select:none;
-            
+            background: black;
+            user-select: none;
         }
 
-        .success{
-            color:#00cc66;
+        .success {
+            color: #00cc66;
         }
 
-        .failure{
-            color:rgba(236, 44, 44,)
+        .failure {
+            color: rgb(236, 44, 44);
         }
 
-        .hidden{
-            display:none;
+        .dot1 { background-color: #00cc66; animation: dotanimation 1.1s ease-in-out infinite alternate; }
+        .dot2 { background-color: rgb(236, 44, 44); animation: dotanimation 1.2s ease-in-out infinite alternate; }
+        .dot3 { background-color: rgb(248, 248, 54); animation: dotanimation 1s ease-in-out infinite alternate; }
+        .dot4 { background-color: rgb(255, 170, 0); animation: dotanimation 1s ease-in-out infinite alternate; }
+
+        @keyframes dotanimation {
+            from { transform: translateY(-5px); }
+            to { transform: translateY(5px); }
         }
 
-        .dot1{
-            background-color: #00cc66;
-            animation: dotanimation 1.1s ease-in-out infinite alternate;
-        }
-        .dot2{
-            background-color: rgba(236, 44, 44);
-            animation: dotanimation 1.2s ease-in-out infinite alternate;
-        }
-        .dot3{
-            background-color: rgb(248, 248, 54);
-            animation: dotanimation 1s ease-in-out infinite alternate;
-        }
-        .dot4{
-            background-color: rgb(255, 170, 0);
-            animation: dotanimation 1s ease-in-out infinite alternate;
-        }
-
-        @keyframes dotanimation{
-            from{
-                transform:translateY(-5px);
-            }to{
-                transform: translateY(5px);
-            }
-        }
-
-
-
-        /* --- Responsive Breakpoint (Desktop Side-by-Side) --- */
+        /* --- Responsive Breakpoint --- */
         @media (min-width: 950px) {
             .page-container {
                 grid-template-columns: 1.1fr 0.9fr;
                 gap: 60px;
             }
-            .info-panel {
-                
-            }
         }
 
         @media (max-width: 1210px) {
-    /* Vertical Transition Tweaks */
             @keyframes view-transition-old { to { transform: translateY(-100%); } }
             @keyframes view-transition-new { from { transform: translateY(100%); } }
         }
+        
         @media (max-width: 950px) {
-            /*.page-container {
-                grid-template-columns: 1.1fr 0.9fr;
-                gap: 60px;
-            }*/
             .info-panel {
-                display:none;
+                display: none;
             }
         }
     </style>
@@ -499,16 +441,18 @@
     <div class="page-container">
         
         <section class="info-panel">
-            <div class="logo"><img src="LOGO3 3rem.png" alt="LOGO" height="64px" width="64px"> <span>Ashish Ranjan</span></div>
+            <div class="logo">
+                <img src="LOGO3 3rem.png" alt="LOGO" height="64px" width="64px"> 
+                <span>Ashish Ranjan</span>
+            </div>
             
             <h1 class="headline">Welcome to my world.</h1>
             <p class="subheadline">Experience software engineering beyond static web pages. Sign in to access:</p>
             
             <ul class="features-list">
                 <li class="feature-item"><span class="checkmark">✓</span> My Blogs and articles on various topics.</li>
-                <li class="feature-item"><span class="checkmark">✓</span> Ashish AI, an agentic AI based Graph RAG chat app for portfolio related queries.</li>
-                <li class="feature-item"><span class="checkmark">✓</span> Samvaad, an E2EE chat app built on signal protocol for </li>
-                <li class="feature-item"><span class="checkmark">✓</span> </li>
+                <li class="feature-item"><span class="checkmark">✓</span> Ashish AI, an agentic AI based Graph RAG chat app for portfolio queries.</li>
+                <li class="feature-item"><span class="checkmark">✓</span> Samvaad, an E2EE chat app built on Signal protocol.</li>
             </ul>
 
             <div class="marketplace-section">
@@ -526,15 +470,17 @@
             </div>
         </section>
 
+        <!-- Dynamic Auth Card Container -->
         <div class="card">
-            <div class="inner-card first-card">
+            <div class="inner-card show-login">
+                
+                <!-- 1. LOGIN CARD -->
                 <main class="auth-card login-card">
                     <h2 class="card-title">Log in</h2>
                     
-                    <form action="/login" method="post">
+                    <form id="login-form">
                         <div class="form-group-super-container">
                             <div class="form-group-container">
-
                                 <div class="form-group">
                                     <input class="form-input" type="email" id="email" name="email" placeholder=" " required>
                                     <label class="form-label" for="email">Email address</label>
@@ -543,15 +489,14 @@
                                     <input class="form-input" type="password" id="password" name="password" placeholder=" " required>
                                     <label class="form-label" for="password">Password</label>
                                 </div>
-
                             </div>
                         </div>
                         
-                        <div class="error"></div>
+                        <div class="error login-error hidden"></div>
                         <button type="submit" class="btn-primary login-btn">Continue</button>
                     </form>
 
-                    <p class="switch-auth">Don't have an account? <span>Sign up</span></p>
+                    <p class="switch-auth">Don't have an account? <span id="to-signup">Sign up</span></p>
 
                     <div class="divider">OR</div>
 
@@ -567,17 +512,17 @@
                     </div>
 
                     <div class="help-footer">
-                        Forgot Password? <span class="reset-password">Reset</span>
+                        Forgot Password? <a id="to-forgot">Get help</a>
                     </div>
                 </main>
 
-                <main class="auth-card initial-back signup-card">
+                <!-- 2. SIGNUP CARD -->
+                <main class="auth-card signup-card">
                     <h2 class="card-title">Sign up</h2>
                     
-                    <form action="/signup" method="post">
+                    <form id="signup-form">
                         <div class="form-group-super-container">
                             <div class="form-group-container">
-
                                 <div class="form-group">
                                     <input class="form-input" type="text" id="name" name="name" placeholder=" " required>
                                     <label class="form-label" for="name">Name</label>
@@ -594,15 +539,14 @@
                                     <input class="form-input" type="password" id="signup-password" name="password" placeholder=" " required>
                                     <label class="form-label" for="signup-password">Password</label>
                                 </div>
-
                             </div>
                         </div>
                         
-                        <div class="error signup-error"></div>
-                        <button type="submit" class="btn-primary signup-btn">continue</button>
+                        <div class="error signup-error hidden"></div>
+                        <button type="submit" class="btn-primary signup-btn">Continue</button>
                     </form>
 
-                    <p class="switch-auth">Already have an account? <span>Log in</span></p>
+                    <p class="switch-auth">Already have an account? <span id="to-login-from-signup">Log in</span></p>
 
                     <div class="divider">OR</div>
 
@@ -618,10 +562,12 @@
                     </div>
 
                     <div class="help-footer">
-                        Forgot Password? <a href="#">Get help</a>
+                        Forgot Password? <a id="to-forgot-from-signup">Get help</a>
                     </div>
                 </main>
-                <main class="auth-card forgot-card ">
+
+                <!-- 3. FORGOT PASSWORD CARD -->
+                <main class="auth-card forgot-card">
                     <h2 class="card-title">Reset Password</h2>
                     
                     <form id="forgot-form">
@@ -640,237 +586,273 @@
 
                     <p class="switch-auth">Remembered password? <span id="to-login-from-forgot">Back to Log in</span></p>
                 </main>
-            </div>
 
+            </div>
         </div>
 
     </div>
+
     <script>
-        let emailEl = document.querySelector("#email");
-        let passwordEl = document.querySelector("#password");
-        let loginBtn = document.querySelector(".login-btn");
-        let errorEl = document.querySelector(".error");
+        // --- Elements Setup ---
+        const cardContainer = document.querySelector(".card");
+        const innerCard = document.querySelector(".inner-card");
+        
+        const loginCard = document.querySelector(".login-card");
+        const signupCard = document.querySelector(".signup-card");
+        const forgotCard = document.querySelector(".forgot-card");
 
-        const nameEl = document.querySelector("#name");
-        const organizationEl = document.querySelector("#organization");
-        const signupEmailEl = document.querySelector(" #signup-email");
-        const signupPasswordEl = document.querySelector("#signup-password");
+        // Buttons & Links
+        const toSignup = document.querySelector("#to-signup");
+        const toLoginFromSignup = document.querySelector("#to-login-from-signup");
+        const toForgot = document.querySelector("#to-forgot");
+        const toForgotFromSignup = document.querySelector("#to-forgot-from-signup");
+        const toLoginFromForgot = document.querySelector("#to-login-from-forgot");
 
-        let signupElArr = [nameEl, organizationEl,signupEmailEl, signupPasswordEl];
+        // Helper function to resize container and shift view
+        function switchView(viewClass, targetCard) {
+            innerCard.className = `inner-card ${viewClass}`;
+            cardContainer.style.height = `${targetCard.offsetHeight}px`;
+        }
 
-        const signupBtn = document.querySelector(".signup-btn");
-        const signupErrorEl = document.querySelector(".signup-error");
+        // Set initial card height dynamically
+        window.addEventListener("load", () => {
+            cardContainer.style.height = `${loginCard.offsetHeight}px`;
+        });
 
-        let signupCard = document.querySelector(".signup-card");
-        let loginCard = document.querySelector(".login-card");
-        let card = document.querySelector(".card");
-        let flipperEl = document.querySelectorAll(".switch-auth");
-        let forgotCard = document.querySelector(".forgot-card");
-        flipperEl.forEach((el,idx)=>{
-            el.addEventListener("click",(event)=>{
-                if(idx==0){
-                    document.querySelector(".inner-card").style.transform = `rotateY(180deg)`;
-                    forgotCard.classList.add("hidden");
-                }
-                
-                else{
-                    document.querySelector(".inner-card").style.transform = `rotateY(0deg)`;
-                    //card.style.height = signupCard.offsetHeight+"px";
-                    if(signupCard.classList.contains("hidden")){
-                        setTimeout(()=>{
-                            signupCard.classList.remove("hidden");
-                        },500);
-                    }
-                    if(forgotCard.classList.contains("hidden")){
-                        setTimeout(()=>{
-                            forgotCard.classList.remove("hidden");
-                        },500);
-                    }
-                }
-            })
-        })
+        // --- Navigation Events ---
+        toSignup.addEventListener("click", () => switchView("show-signup", signupCard));
+        toLoginFromSignup.addEventListener("click", () => switchView("show-login", loginCard));
+        toForgot.addEventListener("click", () => switchView("show-forgot", forgotCard));
+        toForgotFromSignup.addEventListener("click", () => switchView("show-forgot", forgotCard));
+        toLoginFromForgot.addEventListener("click", () => switchView("show-login", loginCard));
 
-        card.style.height = signupCard.offsetHeight +"px";
+        // --- 1. Login Handler ---
+        const emailEl = document.querySelector("#email");
+        const passwordEl = document.querySelector("#password");
+        const loginBtn = document.querySelector(".login-btn");
+        const loginErrorEl = document.querySelector(".login-error");
 
         let currentPos = 0;
         let elArr = [emailEl, passwordEl]; 
-        loginBtn.addEventListener("click",async (event)=>{
+
+        loginBtn.addEventListener("click", async (event) => {
             event.preventDefault();
-            if("vibrate" in navigator){
-                navigator.vibrate(50);
-            }
-            if(!errorEl.classList.contains("hidden"))errorEl.classList.add("hidden");
+            if ("vibrate" in navigator) navigator.vibrate(50);
             
-            if(currentPos<elArr.length-1){
+            loginErrorEl.classList.add("hidden");
+            
+            if (currentPos < elArr.length - 1) {
                 elArr[++currentPos].focus();
-                if(currentPos===elArr.length-1){
+                if (currentPos === elArr.length - 1) {
                     loginBtn.textContent = "Log in";
                 }
-            }else{
-                event.target.classList.add("disabled");
-                let body = {
-                    email: emailEl.value,
-                    password: passwordEl.value
-                }
+            } else {
+                loginBtn.classList.add("disabled");
+                loginBtn.textContent = "";
 
-                event.target.textContent = "";
-                for(let i = 1; i <=4; i++){
+                for (let i = 1; i <= 4; i++) {
                     let dotEl = document.createElement("div");
-                    dotEl.classList.add("dot",`dot${i}`);
-                    event.target.appendChild(dotEl);
+                    dotEl.classList.add("dot", `dot${i}`);
+                    loginBtn.appendChild(dotEl);
                 }
 
-                let result = await fetch("/login",{
-                    method:"POST",
-                    headers:{
-                        "Content-Type":"application/json"
-                    },
-                    body:JSON.stringify(body)
-                });
-                event.target.replaceChildren();
-                if (result.status === 200) {
-                    
-                    event.target.classList.add("success");
-                    event.target.textContent = "Login successful. Redirecting you to previous page";
-                    // 1. Parse the current URL parameters
-                    setTimeout(()=>{
-                        const urlParams = new URLSearchParams(window.location.search);
-                    
-                        // 2. Get the value of '?redirect=' or fallback to the main dashboard
-                        const redirectTo = urlParams.get('redirect') || '/';
+                try {
+                    let result = await fetch("/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: emailEl.value, password: passwordEl.value })
+                    });
+
+                    loginBtn.replaceChildren();
+
+                    if (result.status === 200) {
+                        loginBtn.classList.add("success");
+                        loginBtn.textContent = "Login successful. Redirecting...";
                         
-                        // 3. Cleanly navigate back
-                        if (document.startViewTransition) {
-                            document.startViewTransition(() => {
+                        setTimeout(() => {
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const redirectTo = urlParams.get('redirect') || '/';
+                            if (document.startViewTransition) {
+                                document.startViewTransition(() => { window.location.href = redirectTo; });
+                            } else {
                                 window.location.href = redirectTo;
-                            });
-                        } else {
-                            window.location.href = redirectTo;
-                        }
-                    },3000);
-                    
-                }else{
-                    let resultMessage = await result.json();
-                    event.target.classList.add("failure");
-                    event.target.textContent = resultMessage.message;
-                    setTimeout(()=>{
-                        loginBtn.classList.remove("disabled","failure");
+                            }
+                        }, 2000);
+                    } else {
+                        let resultMessage = await result.json();
+                        loginBtn.classList.add("failure");
+                        loginBtn.textContent = resultMessage.message || "Login failed";
+                        setTimeout(() => {
+                            loginBtn.classList.remove("disabled", "failure");
+                            loginBtn.textContent = "Log in";
+                        }, 3000);
+                    }
+                } catch (err) {
+                    loginBtn.replaceChildren();
+                    loginBtn.classList.add("failure");
+                    loginBtn.textContent = "Network error";
+                    setTimeout(() => {
+                        loginBtn.classList.remove("disabled", "failure");
                         loginBtn.textContent = "Log in";
-                    }, 3000)
-                }    
+                    }, 3000);
+                }
             }
         });
 
+        // --- 2. Signup Handler ---
+        const nameEl = document.querySelector("#name");
+        const organizationEl = document.querySelector("#organization");
+        const signupEmailEl = document.querySelector("#signup-email");
+        const signupPasswordEl = document.querySelector("#signup-password");
+        const signupBtn = document.querySelector(".signup-btn");
+        const signupErrorEl = document.querySelector(".signup-error");
+
+        let signupElArr = [nameEl, organizationEl, signupEmailEl, signupPasswordEl];
         let signupCurrentPos = 0;
+
         signupBtn.addEventListener("click", async (event) => {
             event.preventDefault();
-
-            if ("vibrate" in navigator) {
-                navigator.vibrate(50);
-            }
+            if ("vibrate" in navigator) navigator.vibrate(50);
 
             signupErrorEl.classList.add("hidden");
-            if(signupCurrentPos < signupElArr.length-1){
+
+            if (signupCurrentPos < signupElArr.length - 1) {
                 signupElArr[++signupCurrentPos].focus();
-                if(signupCurrentPos===signupElArr.length-1){
+                if (signupCurrentPos === signupElArr.length - 1) {
                     signupBtn.textContent = "Sign up";
                 }
-            }else{
-                event.target.classList.add("disabled");
-                const body = {
-                    name: nameEl.value.trim(),
-                    organization: organizationEl.value.trim(),
-                    email: signupEmailEl.value.trim(),
-                    password: signupPasswordEl.value
-                };
+            } else {
+                signupBtn.classList.add("disabled");
+                signupBtn.textContent = "";
 
-                for(let i = 1; i <=4; i++){
+                for (let i = 1; i <= 4; i++) {
                     let dotEl = document.createElement("div");
-                    dotEl.classList.add("dot",`dot${i}`);
-                    event.target.appendChild(dotEl);
+                    dotEl.classList.add("dot", `dot${i}`);
+                    signupBtn.appendChild(dotEl);
                 }
 
-                const result = await fetch("/signup", {
+                try {
+                    const result = await fetch("/signup", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            name: nameEl.value.trim(),
+                            organization: organizationEl.value.trim(),
+                            email: signupEmailEl.value.trim(),
+                            password: signupPasswordEl.value
+                        })
+                    });
+
+                    signupBtn.replaceChildren();
+
+                    if (result.status === 201) {
+                        signupBtn.classList.add("success");
+                        signupBtn.textContent = "Signup successful!";
+
+                        setTimeout(() => {
+                            switchView("show-login", loginCard);
+                            // Clear inputs
+                            nameEl.value = ""; organizationEl.value = "";
+                            signupEmailEl.value = ""; signupPasswordEl.value = "";
+                            signupBtn.classList.remove("disabled", "success");
+                            signupBtn.textContent = "Continue";
+                        }, 2000);
+                    } else {
+                        let resultMessage = await result.json();
+                        signupBtn.classList.add("failure");
+                        signupBtn.textContent = resultMessage.message || "Signup failed";
+                        setTimeout(() => {
+                            signupBtn.classList.remove("disabled", "failure");
+                            signupBtn.textContent = "Sign up";
+                        }, 3000);
+                    }
+                } catch(err) {
+                    signupBtn.replaceChildren();
+                    signupBtn.classList.add("failure");
+                    signupBtn.textContent = "Network error";
+                    setTimeout(() => {
+                        signupBtn.classList.remove("disabled", "failure");
+                        signupBtn.textContent = "Sign up";
+                    }, 3000);
+                }
+            }
+        });
+
+        // --- 3. Forgot Password Handler ---
+        const forgotEmailEl = document.querySelector("#forgot-email");
+        const forgotBtn = document.querySelector(".forgot-btn");
+        const forgotErrorEl = document.querySelector(".forgot-error");
+
+        forgotBtn.addEventListener("click", async (event) => {
+            event.preventDefault();
+            if ("vibrate" in navigator) navigator.vibrate(50);
+
+            forgotErrorEl.classList.add("hidden");
+
+            if (!forgotEmailEl.value.trim()) {
+                forgotErrorEl.textContent = "Please enter your email.";
+                forgotErrorEl.classList.remove("hidden");
+                return;
+            }
+
+            forgotBtn.classList.add("disabled");
+            forgotBtn.textContent = "";
+
+            for (let i = 1; i <= 4; i++) {
+                let dotEl = document.createElement("div");
+                dotEl.classList.add("dot", `dot${i}`);
+                forgotBtn.appendChild(dotEl);
+            }
+
+            try {
+                // Calls your Express route
+                const result = await fetch("/auth/reset-password-email", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(body)
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: forgotEmailEl.value.trim() })
                 });
 
-                if (result.status === 201) {
+                const resData = await result.json();
+                forgotBtn.replaceChildren();
 
-                    event.target.classList.add("success");
-                    event.target.textContent = "Signup successful.";
-                    // 1. Parse the current URL parameters
-                    setTimeout(()=>{
-                        document.querySelector(".inner-card").style.transform = "rotateY(0deg)";
-                    card.style.height = loginCard.offsetHeight + "px";
+                if (result.status === 200) {
+                    forgotBtn.classList.add("success");
+                    forgotBtn.textContent = "Email Sent!";
+                    
+                    // Display response message below
+                    forgotErrorEl.textContent = resData.message;
+                    forgotErrorEl.style.color = "#00cc66";
+                    forgotErrorEl.classList.remove("hidden");
 
-                    // Clear signup form
-                    nameEl.value = "";
-                    organizationEl.value = "";
-                    signupEmailEl.value = "";
-                    signupPasswordEl.value = "";
-
-                    // Optional success message
-                    },3000);
-
+                    setTimeout(() => {
+                        forgotEmailEl.value = "";
+                        switchView("show-login", loginCard);
+                        forgotBtn.classList.remove("disabled", "success");
+                        forgotBtn.textContent = "Send Reset Link";
+                        forgotErrorEl.style.color = "red";
+                        forgotErrorEl.classList.add("hidden");
+                    }, 4000);
                 } else {
+                    forgotBtn.classList.add("failure");
+                    forgotBtn.textContent = "Error";
+                    forgotErrorEl.textContent = resData.message || "Something went wrong.";
+                    forgotErrorEl.classList.remove("hidden");
 
-                    let resultMessage = await result.json();
-                    event.target.classList.add("failure");
-                    event.target.textContent = resultMessage.message;
-                    setTimeout(()=>{
-                        loginBtn.classList.remove("disabled","failure");
-                        loginBtn.textContent = "Log in";
-                    }, 3000)
+                    setTimeout(() => {
+                        forgotBtn.classList.remove("disabled", "failure");
+                        forgotBtn.textContent = "Send Reset Link";
+                    }, 3000);
                 }
+            } catch (err) {
+                forgotBtn.replaceChildren();
+                forgotBtn.classList.add("failure");
+                forgotBtn.textContent = "Network Error";
+                setTimeout(() => {
+                    forgotBtn.classList.remove("disabled", "failure");
+                    forgotBtn.textContent = "Send Reset Link";
+                }, 3000);
             }
         });
-
-        const resetPasswordFlipperBtn = document.querySelector(".reset-password");
-        resetPasswordFlipperBtn.addEventListener("click", ()=>{
-            document.querySelector(".signup-card").classList.add("hidden");
-            document.querySelector(".inner-card").style.transform = "rotateY(180deg)";
-        });
-
-        const forgotBtn = document.querySelector(".forgot-btn");
-        forgotBtn.addEventListener("click",async (event)=>{
-            event.preventDefault();
-            if("vibrate" in navigator){
-                navigator.vibrate(50);
-            }
-            let emailEl = document.querySelector("#forgot-email");
-            let email = emailEl.value;
-            let errorEl = document.querySelector(".forgot-error");
-            errorEl.classList.add("hidden");
-            if(!email){
-                errorEl.textContent = "Please provide a valid email.";
-                errorEl.classList.remove("hidden");
-            }
-            let res = await fetch("/auth/reset-password-email",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({
-                    email
-                })
-            });
-
-            let result = await res.json();
-            if(res.status === 200){
-                event.target.textContent = result.message;
-                event.target.classList.add("success");
-                event.target.classList.add("disabled");
-                emailEl.classList.add("disabled");
-            }else{
-                errorEl.textContent = result.message;
-            }
-        });
-
     </script>
-
 </body>
 </html>

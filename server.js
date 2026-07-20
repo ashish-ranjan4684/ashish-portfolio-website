@@ -3,7 +3,7 @@ const path = require("path");
 const websocket = require("ws");
 const http = require("http");
 const cookieParser = require("cookie-parser");
-const redis = require("redis");
+const {transporter} = require("./controllers/nodemailer");
 const crypto = require("crypto");
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
@@ -12,7 +12,9 @@ const upload = multer({ storage: multer.memoryStorage() });
 const {sendEmail} = require("./scripts/sendEmail");
 const loginRoutes = require("./routes/login");
 const signupRoutes = require("./routes/signup");
+const forgotPasswordRoute = require("./routes/forgetPassword");
 const mysql = require("mysql2/promise");
+const {createClient} = require("redis");
 const authenticate = require("./middlewares/authenticate");
 
 require("dotenv").config();
@@ -63,7 +65,6 @@ var connection = null;
         console.log(row);
         publicKey = row[0].public_key;
         process.env.PUBLIC_KEY = publicKey;
-        console.log("Got public key.", publicKey);
     }catch(err){
         publicKey = null;
         console.log(err);
@@ -86,23 +87,6 @@ var connection = null;
     }
 })();*/
 
-/*const redisClient = redis.createClient({
-    username: process.env.REDIS_USERNAME,
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT
-    }
-});
-
-(async()=>{
-    redisClient.on("error",(err)=>{
-        console.log("Error connecting to Redis Client: ",err);
-    });
-    await redisClient.connect();
-    console.log("Connected to Redis");
-})();*/
-
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -115,7 +99,10 @@ app.use(express.static(path.join(__dirname,"assets","resources")));
 app.use(express.static(path.join(__dirname,"assets","fonts")));
 app.use(express.static(path.join(__dirname,"assets","icons")));
 app.use(express.static(path.join(__dirname,"assets","sounds")));
+app.set("views","./views");
+app.set("view engine","ejs");
 
+app.use("/auth",forgotPasswordRoute);
 app.use("/",loginRoutes);
 app.use("/",signupRoutes);
 
@@ -352,6 +339,12 @@ wss.on("connection",async(ws,req)=>{
     });
 });
 
-server.listen(PORT,"localhost", () => {
+server.listen(PORT,"localhost", async() => {
     console.log(`Server is running on port ${PORT}`);
+    try{
+        await transporter.verify();
+        console.log("Connected to SMTP server successfully.");
+    }catch(err){
+        console.log("Cannot connect to SMTP server.");
+    }
 });
