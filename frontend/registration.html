@@ -849,6 +849,13 @@
                 errorEl.textContent = "Please provide a valid email.";
                 errorEl.classList.remove("hidden");
             }
+
+            for(let i = 1; i <=4; i++){
+                    let dotEl = document.createElement("div");
+                    dotEl.classList.add("dot",`dot${i}`);
+                    event.target.appendChild(dotEl);
+            }
+
             let res = await fetch("/auth/reset-password-email",{
                 method:"POST",
                 headers:{
@@ -860,6 +867,7 @@
             });
 
             let result = await res.json();
+            event.target.replaceChildren();
             if(res.status === 200){
                 event.target.textContent = result.message;
                 event.target.classList.add("success");
@@ -867,6 +875,7 @@
                 emailEl.classList.add("disabled");
             }else{
                 errorEl.textContent = result.message;
+                event.target.textContent = "Send Reset Link"
             }
         });
 
