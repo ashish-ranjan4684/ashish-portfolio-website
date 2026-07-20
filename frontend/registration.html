@@ -849,7 +849,7 @@
                 errorEl.textContent = "Please provide a valid email.";
                 errorEl.classList.remove("hidden");
             }
-
+            event.target.textContent="";
             for(let i = 1; i <=4; i++){
                     let dotEl = document.createElement("div");
                     dotEl.classList.add("dot",`dot${i}`);
